@@ -2,10 +2,14 @@
 var minutesEl = document.querySelector(".timer__part--minutes");
 var secondsEl = document.querySelector(".timer__part--seconds");
 var startBtnEl = document.querySelector(".start");
+
 // interval and remaining secoonds variables for timer updating
 var interval = null;
 
-var buttonUpdate = function (remainingSeconds) {   
+
+
+// function for updating minutes seconds
+var timerInterfaceUpdate = function (remainingSeconds) {   
     
     // variable for generating one minute with division
     var minutes = Math.floor(remainingSeconds / 60);
@@ -19,16 +23,26 @@ var buttonUpdate = function (remainingSeconds) {
     if (interval === null) {
      startBtnEl.textContent = "Start Quiz";
  }else {
-     startBtnEl.textContent = "Restart Quiz";
+   startBtnEl.textContent = "Restart Quiz";
    startBtnEl.className = "restart";
  }
  
   };
+
+// stop function clear interval and reset button
+  var stop = function(interval) {
+      clearInterval(interval);
+      startBtnEl.textContent = "Start Quiz";
+      startBtnEl.className = "start";
+      
+  };
+
+
    
 
-// function for updating the clock (timer)
+// start function
 var start = function () {
-    var remainingSeconds = 90;
+    var remainingSeconds = 60;
     // variable for generating one minute with division
     var minutes = Math.floor(remainingSeconds / 60);
     //variable for remaing seconds
@@ -41,16 +55,23 @@ var start = function () {
 if (remainingSeconds === 0) { 
      return
   }else {
+    startBtnEl.removeEventListener("click",start);
+    
       interval = setInterval(() => { 
-
+        
       remainingSeconds--;
       
-   
-      buttonUpdate(remainingSeconds);
-      console.log(remainingSeconds);
+      
+      timerInterfaceUpdate(remainingSeconds);
+     // console.log(remainingSeconds);
       if (remainingSeconds === 0) {
-          stop();
+          stop(interval);
+          
+          
       }
+      startBtnEl.addEventListener("click", () => {
+       location.reload();
+      });
       }, 1000);
   }
 };
