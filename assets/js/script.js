@@ -2,9 +2,11 @@
 var minutesEl = document.querySelector(".timer__part--minutes");
 var secondsEl = document.querySelector(".timer__part--seconds");
 var startBtnEl = document.querySelector(".start");
-
+var mainEl = document.querySelector("#main");
 // interval and remaining secoonds variables for timer updating
 var interval = null;
+
+
 
 
 
@@ -37,11 +39,38 @@ var timerInterfaceUpdate = function (remainingSeconds) {
       
   };
 
+  // funtion to generate questions
+  var questionGen = function (questions) {
+    // create section to house questions also giv classname etc then append to main
+    var questionSection = document.createElement("section");
+    questionSection.className = "question-section";
+    questionSection.innerHTML = "<h1 class='section-title'>Seb's JS Quiz</h1>"
+    mainEl.appendChild(questionSection);
+
+    var questionList = document.createElement("ul");
+    questionList.className = "question-list";
+    questionList.innerHTML = "<h2>" + questions[0].question + "</h2><li class='question'>" + questions[0].answers[1].text + "</li><li class='question'>"  + questions[0].answers[0].text + "</li><li class='question'>" + questions[0].answers[2].text + "</li>";
+    questionSection.appendChild(questionList);
+console.log(questions[0].answers[1].text);
+  };
 
    
 
 // start function
 var start = function () {
+// questions
+var questions = [
+  {question: 'a function declared with syntax var myfunction = function() {}; is known as what?',
+answers: [
+   {text: 'function expression', correct: true},
+   {text: 'function algorithm', correct: false},
+   {text: 'function' , correct:false}
+  ]
+ },
+];
+questionGen(questions);
+
+
     var remainingSeconds = 60;
     // variable for generating one minute with division
     var minutes = Math.floor(remainingSeconds / 60);
@@ -77,7 +106,7 @@ if (remainingSeconds === 0) {
 };
 
 
-
+//questionGen();
  
 
 
