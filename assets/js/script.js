@@ -8,7 +8,7 @@ var interval = null;
 // put question section into a variable
 var questionSection = document.querySelector(".question-section");
 
-var shuffledQuestions,currentQuestionIndex;
+var currentQuestionsID = 0;
 
 // question array
 var questions = [
@@ -88,6 +88,14 @@ var timerInterfaceUpdate = function (remainingSeconds) {
 
   // funtion to generate questions
   var questionGen = function (questions) {
+    
+    questions.id = currentQuestionsID;
+        console.log(currentQuestionsID);
+        //console.log(questions);
+       if (currentQuestionsID > 0) {
+        removeCurrentQuestion(currentQuestionsID);
+       }
+    
     // create section to house questions also giv classname etc then append to main
     var questionSection = document.createElement("section");
     questionSection.className = "question-section";
@@ -96,10 +104,14 @@ var timerInterfaceUpdate = function (remainingSeconds) {
 
     var questionList = document.createElement("ul");
     questionList.className = "question-list";
+    // give question list data attribute of currentQuestionsId
+    questionList.setAttribute("data-question-id", currentQuestionsID);
     questionList.innerHTML = "<h2>" + questions[0].question + "</h2><li class='question'>" + questions[0].answers[1].text + "</li><li class='question'>"  + questions[0].answers[0].text + "</li><li class='question correct'>" + questions[0].answers[2].text + "</li>";
     questionSection.appendChild(questionList);
     questionSection.addEventListener('click', handleAnswer);
-//console.log(shuffledQuestions,currentQuestions);
+console.log(questionList);
+currentQuestionsID++;
+
   };
 
   var handleAnswer = function(event, questions) {
@@ -107,8 +119,19 @@ var timerInterfaceUpdate = function (remainingSeconds) {
 
   if(targetAnswer.matches('.correct')) {
     console.log('hello');
-  }
+   }
   };
+
+ 
+
+   var removeCurrentQuestion = function() {
+  //var ulParent = document.querySelector("..question-list"); 
+  var questionToBeRemoved = document.querySelector(".question-section:last-child");
+  questionToBeRemoved.parentElement.removeChild(questionToBeRemoved);
+    // var questionToBeRemoved = document.querySelector(".question-list[data-question-id='"+ currentQuestionsID +"']");
+    //questionToBeRemoved.remove(currentQuestionsID);
+    //console.log(questionToBeRemoved);
+   };
 
    
 
@@ -123,7 +146,7 @@ questionGen(questions);
 
 
 
-    var remainingSeconds = 60;
+    var remainingSeconds = 5;
     // variable for generating one minute with division
     var minutes = Math.floor(remainingSeconds / 60);
     //variable for remaing seconds
@@ -147,6 +170,9 @@ if (remainingSeconds === 0) {
      // console.log(remainingSeconds);
       if (remainingSeconds === 0) {
           stop(interval);
+          
+          start();
+          
           
           
       }
