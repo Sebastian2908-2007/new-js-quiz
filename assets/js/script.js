@@ -5,8 +5,55 @@ var startBtnEl = document.querySelector(".start");
 var mainEl = document.querySelector("#main");
 // interval and remaining secoonds variables for timer updating
 var interval = null;
+// put question section into a variable
+var questionSection = document.querySelector(".question-section");
 
+var shuffledQuestions,currentQuestionIndex;
 
+// question array
+var questions = [
+  {question: 'a function declared with syntax var myfunction = function() {}; is known as what?',
+answers: [
+   {text: 'function algorithm', correct: false},
+   {text: 'function' , correct:false},
+   {text: 'function expression', correct: true}
+  ]
+ },
+ {
+   question: 'a variable declared outside any paraticular function is known as what type of variable?',
+   answers: [
+     {text: 'World variable', correct: false},
+     {text: 'Run around variable ' ,correct: false},
+     {text: 'A global varible', correct: true}
+   ]
+ },
+ {
+   question: 'when using `let` to declare a varible, that variable is now unchangable?',
+   answers: [
+     
+     {text: 'b. False' ,correct: false},
+     {text: 'Its complicated', correct: false},
+     {text: 'a. True', correct: true}
+
+   ]
+ },
+ {
+   question: 'what is this known as? for(var i = 0; i < element.length; i++) {}; ',
+   answers: [
+     {text: 'Teranary operator', correct: false},
+     {text: 'Tatch algorithm ' ,correct: false},
+     {text: 'For loop', correct: true}
+   ]
+ },
+ {
+   question: 'what does a switch statement allow you to do?',
+   answers: [
+     {text: 'Switch from one UI to another', correct: false},
+     {text: 'Alter a desktop GUI ' ,correct: false},
+     {text: 'Do some action based on a `case`', correct: true}
+   ]
+ }
+];
 
 
 
@@ -49,26 +96,31 @@ var timerInterfaceUpdate = function (remainingSeconds) {
 
     var questionList = document.createElement("ul");
     questionList.className = "question-list";
-    questionList.innerHTML = "<h2>" + questions[0].question + "</h2><li class='question'>" + questions[0].answers[1].text + "</li><li class='question'>"  + questions[0].answers[0].text + "</li><li class='question'>" + questions[0].answers[2].text + "</li>";
+    questionList.innerHTML = "<h2>" + questions[0].question + "</h2><li class='question'>" + questions[0].answers[1].text + "</li><li class='question'>"  + questions[0].answers[0].text + "</li><li class='question correct'>" + questions[0].answers[2].text + "</li>";
     questionSection.appendChild(questionList);
-console.log(questions[0].answers[1].text);
+    questionSection.addEventListener('click', handleAnswer);
+//console.log(shuffledQuestions,currentQuestions);
+  };
+
+  var handleAnswer = function(event, questions) {
+  var targetAnswer = event.target;
+
+  if(targetAnswer.matches('.correct')) {
+    console.log('hello');
+  }
   };
 
    
 
 // start function
 var start = function () {
-// questions
-var questions = [
-  {question: 'a function declared with syntax var myfunction = function() {}; is known as what?',
-answers: [
-   {text: 'function expression', correct: true},
-   {text: 'function algorithm', correct: false},
-   {text: 'function' , correct:false}
-  ]
- },
-];
+  // event listener for answers
+  
+  // questions
+questions = questions.sort(() => Math.random() - .5);
+
 questionGen(questions);
+
 
 
     var remainingSeconds = 60;
