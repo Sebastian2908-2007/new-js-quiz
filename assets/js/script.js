@@ -6,7 +6,7 @@ var mainEl = document.querySelector("#main");
 // interval and remaining secoonds variables for timer updating
 var interval = null;
 // put question section into a variable
-var questionSection = document.querySelector(".question-section");
+//var questionSection = document.querySelector(".question-section");
 
 var currentQuestionsID = 0;
 
@@ -91,9 +91,10 @@ var timerInterfaceUpdate = function (remainingSeconds) {
     
     questions.id = currentQuestionsID;
         console.log(currentQuestionsID);
+        console.log(questions);
         //console.log(questions);
-       if (currentQuestionsID > 0) {
-        removeCurrentQuestion(currentQuestionsID);
+       if (currentQuestionsID > 0 ) {
+        removeCurrentQuestion(questions);
        }
     
     // create section to house questions also giv classname etc then append to main
@@ -124,13 +125,16 @@ currentQuestionsID++;
 
  
 
-   var removeCurrentQuestion = function() {
-  //var ulParent = document.querySelector("..question-list"); 
+   var removeCurrentQuestion = function(questions) {
+     
+  // remove whole <section> element 
   var questionToBeRemoved = document.querySelector(".question-section:last-child");
   questionToBeRemoved.parentElement.removeChild(questionToBeRemoved);
-    // var questionToBeRemoved = document.querySelector(".question-list[data-question-id='"+ currentQuestionsID +"']");
-    //questionToBeRemoved.remove(currentQuestionsID);
-    //console.log(questionToBeRemoved);
+
+questions.shift();
+ console.log(questions);
+     
+    
    };
 
    
@@ -140,9 +144,17 @@ var start = function () {
   // event listener for answers
   
   // questions
-questions = questions.sort(() => Math.random() - .5);
+questions //= questions.sort(() => Math.random() - .5);
+
+// give objects in questions array an id
+questions.forEach((questions, id) => {
+  questions.id = id + 1;
+});
 
 questionGen(questions);
+
+
+ 
 
 
 
@@ -170,9 +182,9 @@ if (remainingSeconds === 0) {
      // console.log(remainingSeconds);
       if (remainingSeconds === 0) {
           stop(interval);
-          
+        
           start();
-          
+         
           
           
       }
