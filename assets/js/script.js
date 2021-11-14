@@ -93,9 +93,9 @@ var timerInterfaceUpdate = function (remainingSeconds) {
         console.log(currentQuestionsID);
         console.log(questions);
         //console.log(questions);
-       if (currentQuestionsID > 0 ) {
+      /* if (currentQuestionsID > 0 ) {
         removeCurrentQuestion(questions);
-       }
+       }*/
     
     // create section to house questions also giv classname etc then append to main
     var questionSection = document.createElement("section");
@@ -109,7 +109,9 @@ var timerInterfaceUpdate = function (remainingSeconds) {
     questionList.setAttribute("data-question-id", currentQuestionsID);
     questionList.innerHTML = "<h2>" + questions[0].question + "</h2><li class='question'>" + questions[0].answers[1].text + "</li><li class='question'>"  + questions[0].answers[0].text + "</li><li class='question correct'>" + questions[0].answers[2].text + "</li>";
     questionSection.appendChild(questionList);
-    questionSection.addEventListener('click', handleAnswer);
+    questionSection.addEventListener('click', (event) => {
+      handleAnswer(event,questions);
+    });
 console.log(questionList);
 currentQuestionsID++;
 
@@ -117,25 +119,31 @@ currentQuestionsID++;
 
   var handleAnswer = function(event, questions) {
   var targetAnswer = event.target;
+ 
 
   if(targetAnswer.matches('.correct')) {
-    console.log('hello');
+    removeCurrentQuestion(questions);
+   }else{
+     alert("incorrect answer");
    }
   };
 
  
 
    var removeCurrentQuestion = function(questions) {
-     
+   
   // remove whole <section> element 
   var questionToBeRemoved = document.querySelector(".question-section:last-child");
   questionToBeRemoved.parentElement.removeChild(questionToBeRemoved);
 
 questions.shift();
  console.log(questions);
-     
-    
-   };
+ if (questions.length === 0){ 
+ location.reload();
+ }else {   
+     questionGen(questions);
+    }
+  };
 
    
 
@@ -158,7 +166,7 @@ questionGen(questions);
 
 
 
-    var remainingSeconds = 5;
+    var remainingSeconds = 60;
     // variable for generating one minute with division
     var minutes = Math.floor(remainingSeconds / 60);
     //variable for remaing seconds
